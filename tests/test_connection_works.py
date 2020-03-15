@@ -11,6 +11,7 @@ def test_connection_creates():
         'NAME': os.getenv('PG_DB_NAME'),
         'USER': os.getenv('PG_DB_USER'),
         'PASSWORD': os.getenv('PG_DB_PASSWORD'),
+        'OPTIONS': {}
     }
 
     wrapper = DatabaseWrapper(settings_dict)
