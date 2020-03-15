@@ -17,7 +17,7 @@ def test_connection_creates():
     wrapper = DatabaseWrapper(settings_dict)
 
     conn_params = wrapper.get_connection_params()
-    conn = wrapper.get_new_connection(params)
+    conn = wrapper.get_new_connection(conn_params)
 
     with conn.cursor() as cursor:
         cursor.execute("SELECT (%s %% 2) = 0 AS even", (10,))
