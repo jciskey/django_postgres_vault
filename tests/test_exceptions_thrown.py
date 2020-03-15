@@ -5,6 +5,10 @@ import copy
 import pytest
 
 from django.core.exceptions import ImproperlyConfigured
+from django.db import (
+    InternalError,
+    OperationalError,
+)
 
 from django_postgres_vault.base import DatabaseWrapper
 
@@ -20,6 +24,8 @@ class TestDPVWrapperExceptions:
         'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT'),
         'OPTIONS': {},
     }
+
+    SEALED_VAULT_URL = os.getenv('SEALED_VAULT_URL')
 
     def get_base_settings(self):
         return copy.deepcopy(self.BASE_SETTINGS_DICT)
@@ -52,4 +58,24 @@ class TestDPVWrapperExceptions:
         wrapper = DatabaseWrapper(settings_dict)
 
         with pytest.raises(ImproperlyConfigured):
+            conn_params = wrapper.get_connection_params()
+
+    def test_invalid_vault_db_mount_point_throws_exception(self):
+        settings_dict = self.get_base_settings()
+
+        settings_dict['VAULT_DB_MOUNT_POINT'] = '12345'
+
+        wrapper = DatabaseWrapper(settings_dict)
+
+        with pytest.raises(InternalError):
+            conn_params = wrapper.get_connection_params()
+
+    def test_sealed_vault_address_throws_exception(self):
+        settings_dict = self.get_base_settings()
+
+        settings_dict['VAULT_ADDR'] = self.SEALED_VAULT_URL
+
+        wrapper = DatabaseWrapper(settings_dict)
+
+        with pytest.raises(OperationalError):
             conn_params = wrapper.get_connection_params()
