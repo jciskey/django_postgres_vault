@@ -8,6 +8,8 @@ from django.db.backends.postgresql import base
 
 class DatabaseWrapper(base.DatabaseWrapper):
 
+    DEFAULT_VAULT_DB_MOUNT_POINT = 'database'
+
     # Internal Vault client
     _hvac = None
 
@@ -47,7 +49,7 @@ class DatabaseWrapper(base.DatabaseWrapper):
         settings_dict = self.settings_dict
 
         vault_role_name = settings_dict.get('VAULT_ROLE_NAME', None)
-        vault_db_mount_point = settings_dict.get('VAULT_DB_MOUNT_POINT', 'database')
+        vault_db_mount_point = settings_dict.get('VAULT_DB_MOUNT_POINT', self.DEFAULT_VAULT_DB_MOUNT_POINT)
 
         if vault_role_name is None:
             raise ImproperlyConfigured(
