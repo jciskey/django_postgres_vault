@@ -32,10 +32,14 @@ class DatabaseWrapper(base.DatabaseWrapper):
 
             if vault_token is not None:
                 self._hvac.token = vault_token
-                if not self._hvac.is_authenticated():
-                    raise ImproperlyConfigured(
-                        "settings.DATABASES is improperly configured. "
-                        "Please supply a valid Vault token in VAULT_TOKEN.")
+                try:
+                    if not self._hvac.is_authenticated():
+                        raise ImproperlyConfigured(
+                            "settings.DATABASES is improperly configured. "
+                            "Please supply a valid Vault token in VAULT_TOKEN.")
+                except hvac.exceptions.VaultError as e:
+                    msg = e.args[0]
+                    raise OperationalError(msg)
 
         return self._hvac
 
