@@ -17,7 +17,7 @@ class TestDPVWrapperExceptions:
         'VAULT_ADDR': os.getenv('VAULT_ADDR'),
         'VAULT_TOKEN': os.getenv('VAULT_TOKEN'),
         'VAULT_ROLE_NAME': os.getenv('VAULT_ROLE_NAME'),
-        'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT', 'database'),
+        'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT'),
         'OPTIONS': {},
     }
 
@@ -34,3 +34,22 @@ class TestDPVWrapperExceptions:
         with pytest.raises(ImproperlyConfigured):
             conn_params = wrapper.get_connection_params()
 
+    def test_vault_role_name_config_required(self):
+        settings_dict = self.get_base_settings()
+
+        del settings_dict['VAULT_ROLE_NAME']
+
+        wrapper = DatabaseWrapper(settings_dict)
+
+        with pytest.raises(ImproperlyConfigured):
+            conn_params = wrapper.get_connection_params()
+
+    def test_invalid_vault_token_throws_exception(self):
+        settings_dict = self.get_base_settings()
+
+        settings_dict['VAULT_TOKEN'] = '12345'
+
+        wrapper = DatabaseWrapper(settings_dict)
+
+        with pytest.raises(ImproperlyConfigured):
+            conn_params = wrapper.get_connection_params()
