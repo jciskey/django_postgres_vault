@@ -30,6 +30,7 @@ setup(
     install_requires=[
         'Django>=3.0',
         'psycopg2-binary',
+        'hvac',
     ],
 
     classifiers=[
