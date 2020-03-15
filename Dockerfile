@@ -1,4 +1,4 @@
-FROM thematrix/tox-base
+FROM themattrix/tox-base
 
 WORKDIR /app
 
