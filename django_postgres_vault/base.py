@@ -73,11 +73,14 @@ class DatabaseWrapper(base.DatabaseWrapper):
         return (username, password)
 
     def get_connection_params(self):
+        # The Django Postgres backend expects these params,
+        # and will error if they're not provided
         self.settings_dict['USER'] = ''
         self.settings_dict['PASSWORD'] = ''
 
         conn_params = super().get_connection_params()
 
+        # We don't use these params, wipe them
         del self.settings_dict['USER']
         del self.settings_dict['PASSWORD']
 
