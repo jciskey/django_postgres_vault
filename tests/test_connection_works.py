@@ -1,17 +1,18 @@
 # Test that we can connect to a database using the new backend
 
 import os
+import hvac
 from django_postgres_vault.base import DatabaseWrapper
 
 
-def test_connection_creates():
+def test_connection_functional():
     settings_dict = {
         'HOST': os.getenv('PG_HOST'),
         'PORT': os.getenv('PG_PORT'),
         'NAME': os.getenv('PG_DB_NAME'),
-        'USER': os.getenv('PG_DB_USER'),
-        'PASSWORD': os.getenv('PG_DB_PASSWORD'),
-        'OPTIONS': {}
+        'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT', 'database')
+        'VAULT_ROLE_NAME': os.getenv('VAULT_ROLE_NAME')
+        'OPTIONS': {},
     }
 
     wrapper = DatabaseWrapper(settings_dict)
