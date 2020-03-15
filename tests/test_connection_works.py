@@ -1,7 +1,6 @@
 # Test that we can connect to a database using the new backend
 
 import os
-import hvac
 from django_postgres_vault.base import DatabaseWrapper
 
 
