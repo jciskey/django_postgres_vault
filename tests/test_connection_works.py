@@ -40,11 +40,11 @@ class TestDPVWrapperConnections:
         conn = self.get_connection_from_settings(settings_dict)
         self.run_test_connection_query(conn)
 
-    def test_simple_connection_works():
+    def test_simple_connection_works(self):
         settings_dict = self.get_base_settings()
         self.run_connection_test(settings_dict)
 
-    def test_connection_with_no_mount_point_setting_works():
+    def test_connection_with_no_mount_point_setting_works(self):
         settings_dict = self.get_base_settings()
         del settings_dict['VAULT_DB_MOUNT_POINT']
         self.run_connection_test(settings_dict)
