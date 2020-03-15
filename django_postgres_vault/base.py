@@ -71,7 +71,13 @@ class DatabaseWrapper(base.DatabaseWrapper):
         return (username, password)
 
     def get_connection_params(self):
+        self.settings_dict['USER'] = ''
+        self.settings_dict['PASSWORD'] = ''
+
         conn_params = super().get_connection_params()
+
+        del self.settings_dict['USER']
+        del self.settings_dict['PASSWORD']
 
         username, password = self._get_username_password_from_vault()
 
