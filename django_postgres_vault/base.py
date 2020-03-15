@@ -1,7 +1,12 @@
 
 import hvac
+import requests
 
 from django.core.exceptions import ImproperlyConfigured
+from django.db import (
+    InternalError,
+    OperationalError,
+)
 
 from django.db.backends.postgresql import base
 
@@ -61,7 +66,26 @@ class DatabaseWrapper(base.DatabaseWrapper):
             'mount_point': vault_db_mount_point,
         }
 
-        creds = client.secrets.database.generate_credentials(**params)
+        try:
+            creds = client.secrets.database.generate_credentials(**params)
+        except requests.exceptions.MissingSchema as e:
+            exc_msg = e.args[0]
+            if exc_msg.startswith('Invalid URL') and ('No schema supplied' in exc_msg):
+                raise ImproperlyConfigured(
+                    "settings.DATABASES is improperly configured. "
+                    "Please supply a valid Vault URL in VAULT_ADDR. "
+                    "Did you forget your protocol schema? "
+                    "e.g. 'http', 'https'")
+            else:
+                # If we don't know what happened,
+                # re-raise the original exception
+                raise e
+        except hvac.exceptions.Forbidden as e:
+            msg = e.args[0]
+            raise InternalError(msg)
+        except hvac.exceptions.VaultError as e:
+            msg = e.args[0]
+            raise OperationalError(msg)
 
         return creds
 
