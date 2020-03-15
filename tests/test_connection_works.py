@@ -10,8 +10,10 @@ def test_connection_functional():
         'HOST': os.getenv('PG_HOST'),
         'PORT': os.getenv('PG_PORT'),
         'NAME': os.getenv('PG_DB_NAME'),
-        'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT', 'database'),
+        'VAULT_ADDR': os.getenv('VAULT_ADDR'),
+        'VAULT_TOKEN': os.getenv('VAULT_TOKEN'),
         'VAULT_ROLE_NAME': os.getenv('VAULT_ROLE_NAME'),
+        'VAULT_DB_MOUNT_POINT': os.getenv('VAULT_DB_MOUNT_POINT', 'database'),
         'OPTIONS': {},
     }
 
