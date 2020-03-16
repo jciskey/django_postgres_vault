@@ -59,6 +59,8 @@ class DatabaseWrapper(base.DatabaseWrapper):
 
         vault_role_name = settings_dict.get('VAULT_ROLE_NAME', None)
         vault_db_mount_point = settings_dict.get('VAULT_DB_MOUNT_POINT', self.DEFAULT_VAULT_DB_MOUNT_POINT)
+        if vault_db_mount_point is None:
+            vault_db_mount_point = self.DEFAULT_VAULT_DB_MOUNT_POINT
 
         if vault_role_name is None:
             raise ImproperlyConfigured(
