@@ -1,7 +1,7 @@
 django_postgres_vault
 =====================
 
-[![https://img.shields.io/pypi/v/django_postgres_vault.svg "Latest PyPI version"]](https://pypi.python.org/pypi/django_postgres_vault)
+[![Latest PyPI version](https://img.shields.io/pypi/v/django_postgres_vault.svg "Latest PyPI version")](https://pypi.python.org/pypi/django_postgres_vault)
 
 A simple Django database backend that allows rotating PostgreSQL access credentials via [HashiCorp Vault](https://www.vaultproject.io/)
 
