@@ -24,6 +24,7 @@ setup(
 
     description="A simple Django database backend that allows rotating access credentials via HashiCorp Vault",
     long_description=read("README.rst"),
+    long_description_content_type='text/x-rst',
 
     packages=find_packages(exclude=('tests',)),
 
