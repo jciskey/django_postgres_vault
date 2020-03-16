@@ -15,7 +15,7 @@ def read(filename):
 
 setup(
     name="django_postgres_vault",
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/jciskey/django_postgres_vault",
     license='MIT',
 
