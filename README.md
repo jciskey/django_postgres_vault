@@ -42,8 +42,7 @@ Installation
 
 `pip install django_postgres_vault`
 
-Requirements
-^^^^^^^^^^^^
+### Requirements
 
 * Django>=3.0
 * psycopg2
